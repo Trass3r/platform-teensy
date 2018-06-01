@@ -247,18 +247,6 @@ env.Append(
     ASFLAGS=env.get("CCFLAGS", [])[:]
 )
 
-if "cortex-m" in env.BoardConfig().get("build.cpu", ""):
-    board = env.subst("$BOARD")
-    math_lib = "arm_cortex%s_math"
-    if board in ("teensy35", "teensy36"):
-        math_lib = math_lib % "M4lf"
-    elif board in ("teensy30", "teensy31"):
-        math_lib = math_lib % "M4l"
-    else:
-        math_lib = math_lib % "M0l"
-
-    env.Prepend(LIBS=[math_lib])
-
 # Teensy 2.x Core
 if env.BoardConfig().get("build.core") == "teensy":
     env.Append(CPPPATH=[join(FRAMEWORK_DIR, "cores")])
