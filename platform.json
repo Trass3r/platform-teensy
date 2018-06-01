@@ -28,15 +28,10 @@
     }
   },
   "packages": {
-    "toolchain-atmelavr": {
-      "type": "toolchain",
-      "optional": false,
-      "version": "~1.50400.0"
-    },
     "toolchain-gccarmnoneeabi": {
       "type": "toolchain",
       "optional": false,
-      "version": "~1.50401.0"
+      "version": "~1.70201.0"
     },
     "framework-arduinoteensy": {
       "type": "framework",
