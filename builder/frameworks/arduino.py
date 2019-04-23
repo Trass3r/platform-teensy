@@ -146,7 +146,6 @@ elif "BOARD" in env and env.BoardConfig().get("build.core") == "teensy3":
             "-mthumb",
             "-mcpu=%s" % env.BoardConfig().get("build.cpu"),
             "-Wl,--defsym=__rtc_localtime=$UNIX_TIME",
-            "--specs=nano.specs",
             "-fsingle-precision-constant"
         ],
 
@@ -162,8 +161,7 @@ elif "BOARD" in env and env.BoardConfig().get("build.core") == "teensy3":
 
             LINKFLAGS=[
                 "-mfloat-abi=hard",
-                "-mfpu=fpv4-sp-d16",
-                "--specs=nano.specs",
+                "-mfpu=fpv4-sp-d16"
             ]
         )
 
