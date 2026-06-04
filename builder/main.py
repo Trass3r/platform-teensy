@@ -94,6 +94,7 @@ elif "BOARD" in env and build_core in ("teensy3", "teensy4"):
         CXX="arm-none-eabi-g++",
         GDB="arm-none-eabi-gdb",
         OBJCOPY="arm-none-eabi-objcopy",
+        OBJDUMP="arm-none-eabi-objdump",
         RANLIB="arm-none-eabi-gcc-ranlib",
         SIZETOOL="arm-none-eabi-size",
         SIZEPRINTCMD="$SIZETOOL -B -d $SOURCES"
@@ -123,7 +124,18 @@ elif "BOARD" in env and build_core in ("teensy3", "teensy4"):
                     "$TARGET"
                 ]), "Building $TARGET"),
                 suffix=".hex"
-            )
+            ),
+
+            ElfToAsm=Builder(
+                action=env.VerboseAction(" ".join([
+                    "$OBJDUMP",
+                    "-dCSr",
+                    "$SOURCES",
+                    ">",
+                    "$TARGET"
+                ]), "Building $TARGET"),
+                suffix=".asm"
+             )
         )
     )
 
@@ -178,6 +190,9 @@ else:
 
 AlwaysBuild(env.Alias("nobuild", target_firm))
 target_buildprog = env.Alias("buildprog", target_firm, target_firm)
+
+target_disasm = env.ElfToAsm(join("$BUILD_DIR", "${PROGNAME}"), target_elf)
+AlwaysBuild(target_disasm)
 
 #
 # Target: Print binary size
@@ -272,4 +287,4 @@ AlwaysBuild(env.Alias("upload", target_firm, upload_actions))
 # Default targets
 #
 
-Default([target_buildprog, target_size])
+Default([target_buildprog, target_size, target_disasm])
